@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-
+'''
 # 从python 列表或者numpy 创建tensor
 x = torch.tensor([[1,2], [3,4]])
 print(x)
@@ -59,3 +59,78 @@ print(single_data.item())
 
 tensor_data_T = tensor_data.T
 print(tensor_data_T)
+'''
+
+
+'''
+# 张量的操作
+tensor = torch.tensor([[1,2,3], [4,5,6]], dtype=torch.float32)
+print(f"原始tensor: {tensor}")
+
+# 索引跟切片操作
+print(f"获取第一行: {tensor[0]}")
+print(f"获取第一行第一列的元素: {tensor[0][0]}")
+print(f"获取第二列所有的元素: {tensor[:,1]}")
+
+# 形状变换操作
+reshaped = tensor.view(3,2)
+print(f"改变形状后的张量: {reshaped}")
+flattened = tensor.flatten()
+print(f"展平后的张量: {flattened}")
+
+# 数学运算操作
+tensor_add = tensor + 10
+print(f"张量+10:{tensor_add}")
+tensor_mul = tensor * 2
+print(f"张量*2: {tensor_mul}")
+tensor_sum = tensor.sum()
+print(f"张量的元素和: {tensor_sum}")
+
+# 与其他张量的操作
+tensor2 = torch.tensor([[5,6,7],[7,8,9]],dtype=torch.float32)
+print(f"另一个张量: {tensor2}")
+tensor_dot = torch.matmul(tensor, tensor2.T)
+print(f"张量相程的结果为: {tensor_dot}")
+
+# 条件判断和筛选
+mask = tensor > 3
+print(f"大于3的布尔掩码: {mask}")
+filter_tensor = tensor[mask]
+print(f"大于3的元素: {filter_tensor}")
+'''
+
+
+
+# 张量的GPU加速
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+x = torch.tensor([1,2,3,4,5,6,7,8,9], dtype=torch.float32, device=device)
+print(torch.cuda.is_available())
+
+
+# 张量与numpy的互操作
+numpy_array = np.array([[1,2,3],[4,5,6]])
+print(f"numpy_arary: {numpy_array}")
+
+tensor_numpy_arary = torch.from_numpy(numpy_array)
+print(f"tensor_numpy_arary: {tensor_numpy_arary}")
+
+# 内存共享
+numpy_array[0,0] =10
+print(f"numpy_arary: {numpy_array}")
+print(f"tensor_numpy_arary: {tensor_numpy_arary}")
+
+tensor = torch.tensor([[5,6,7],[7,8,9]])
+print(f"tensor: {tensor}")
+numpy_tensor = tensor.numpy()
+print(f"numpy_tensor: {numpy_tensor}")
+
+tensor[0,0] = 10
+print(f"tensor: {tensor}")
+print(f"numpy_tensor: {numpy_tensor}")
+
+# 不共享内存的情况
+tensor_independent = torch.tensor([[1,3,5],[2,4,8]],dtype=torch.float32)
+numpy_independent = tensor_independent.clone().numpy()
+print(f"numpy_independent: {numpy_independent}")
+tensor_independent[0,0] = 10
+print(f"numpy_independent: {numpy_independent}")
